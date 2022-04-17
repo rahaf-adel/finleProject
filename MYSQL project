@@ -27,9 +27,10 @@ user_id int
 );
 
 create table order_products(
-	order_id int primary key,
+	order_id int,
     quantity int ,
-  prodect_id int
+  prodect_id int,
+  primary key (order_id , prodect_id)
 );
 
 create table products(
@@ -49,9 +50,6 @@ add foreign key(user_id) references users(id);
 
 alter table order_products 
 add foreign key(order_id) references orders(id);
-
-alter table order_products 
-add foreign key(prodect_id) references products(id);
 
 /* Add the following constraints to each tables*/
 alter table  countries 
