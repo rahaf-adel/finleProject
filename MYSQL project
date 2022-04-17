@@ -1,0 +1,112 @@
+/*create database*/
+create database store;
+
+/*create tables*/
+use store;
+create table countries(
+	code int primary key,
+    name varchar(20),
+    continent_name varchar(20)
+);
+
+create table users(
+	id int primary key,
+    full_name varchar(20),
+    email varchar(20),
+    gender char(1),
+    data_of_birth varchar(15),
+    created_at datetime,
+country_code int
+);
+
+create table orders(
+	id int primary key,
+    status varchar(6),
+    created_at datetime,
+user_id int
+);
+
+create table order_products(
+	order_id int primary key,
+    quantity int ,
+  prodect_id int
+);
+
+create table products(
+	id int primary key,
+    name varchar(10),
+    price int ,
+    status varchar(10),
+    created_at datetime
+);
+
+/*Connect tables using foreign keys when applicable*/
+alter table users 
+add foreign key(country_code) references countries(code);
+
+alter table orders 
+add foreign key(user_id) references users(id);
+
+alter table order_products 
+add foreign key(order_id) references orders(id);
+
+alter table order_products 
+add foreign key(prodect_id) references products(id);
+
+/* Add the following constraints to each tables*/
+alter table  countries 
+modify column name varchar(20) unique;
+
+alter table  countries 
+modify column continent_name varchar(20) not null;
+
+alter table  users 
+modify column email varchar(20) unique;
+
+alter table  users 
+modify column gender char(1) check(gender='m' or role='f');
+
+alter table  orders 
+modify column status varchar(6) check(status='start' or role='finsh');
+
+alter table  order_products 
+modify column quantity int default 0;
+
+alter table  products 
+modify column price int default 0;
+
+alter table  products 
+modify column name varchar(10)  not null;
+
+alter table  products 
+modify column status varchar(10)  check(status= 'valid' or 'expired');
+
+/*Bouns : Add default datetime to created_at column which take the timestap when the row is created*/
+ALTER TABLE products 
+MODIFY column created_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+/*Write the DML commands for the following instructions ( choose data randomly )*/
+insert into countries
+values(1,"Rahaf","KSA");
+
+insert into users
+values(1,"Jood Ahmad","jood@gmail.com","f","2002-10-01","2021-10-11 12:44:22",1);
+
+insert into orders
+values(1,"start","2020-11-11 10:54:21",1);
+
+insert into products
+values(1,"Faris",1000,"expired","2020-11-11 10:54:21");
+
+insert into order_products
+values(1,5,1);
+
+update  countries
+set name = "Rahaf"
+where code = 1;
+
+delete from products
+ where id=1;
+
+
+
